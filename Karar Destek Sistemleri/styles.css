@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+.kapsayici {
+  height: 100vh;
+  background-color: #e5e7ec;
+}
+.karar-destek {
+  font-weight: bolder;
+  font-size: 24px;
+  color: #d0572f;
+}
+.alt-kapsayici {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+.alt-sol {
+  width: 10%;
+}
+.alt-orta {
+  width: 37%;
+  margin-left: 55px;
+}
+.alt-sag {
+  width: 50%;
+}
+.alt-sol button {
+  margin-left: 40px;
+  margin-top: 10px;
+}
