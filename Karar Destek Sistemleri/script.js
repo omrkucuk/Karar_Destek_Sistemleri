@@ -39,8 +39,9 @@ function showValue(newValue, elementId) {
 // Sonucu Göster Butonu
 function showResult() {
   var table = document.getElementById("myTable");
-  var lastRow = table.rows[table.rows.length - 1];
-  var result = "";
+
+  var goster = document.getElementById("alt-kart1");
+  var goster2 = document.getElementById("alt-kart2");
 
   var range1 = document.getElementById("form1").value;
   var range2 = document.getElementById("form2").value;
@@ -59,12 +60,8 @@ function showResult() {
     parseFloat(range7);
 
   if (deger == 1) {
-    for (var i = 1; i < lastRow.cells.length; i++) {
-      var inputValue = lastRow.cells[i].querySelector("input").value;
-      result += lastRow.cells[i].textContent + ": " + inputValue + ", ";
-    }
-
-    document.getElementById("output").innerText = result.slice(0, -2);
+    goster.style.display = "flex";
+    goster2.style.display = "inline-block";
   } else {
     alert("Lütfen Önem Derecelerinin toplam değerini 1 olarak ayarlayınız.");
   }
@@ -72,6 +69,5 @@ function showResult() {
 
 // Sonuçları Sıfırla Butonu
 function removeResult() {
-  document.getElementById("output").innerText = "";
   window.location.reload();
 }
