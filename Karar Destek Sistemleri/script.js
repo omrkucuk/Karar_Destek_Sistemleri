@@ -39,7 +39,6 @@ function showValue(newValue, elementId) {
 // Sonucu Göster Butonu
 function showResult() {
   var table = document.getElementById("myTable");
-
   var goster = document.getElementById("alt-kart1");
   var goster2 = document.getElementById("alt-kart2");
 
@@ -50,6 +49,7 @@ function showResult() {
   var range5 = document.getElementById("form5").value;
   var range6 = document.getElementById("form6").value;
   var range7 = document.getElementById("form7").value;
+
   var deger =
     parseFloat(range1) +
     parseFloat(range2) +
@@ -62,6 +62,39 @@ function showResult() {
   if (deger == 1) {
     goster.style.display = "flex";
     goster2.style.display = "inline-block";
+
+    var sonuclar = [];
+
+    // Satırları döngü ile gezip input değerlerini al
+    for (var i = 1; i < table.rows.length; i++) {
+      var satir = table.rows[i];
+      var sonuc = i + ". Satır: ";
+
+      for (var j = 1; j < satir.cells.length; j++) {
+        var inputValue = satir.cells[j].querySelector("input").value;
+        sonuc += satir.cells[j].textContent + "   " + inputValue;
+      }
+
+      sonuclar.push(sonuc);
+    }
+
+    // En iyi ve en kötü sonuçları bul
+    var enIyiSonuc = sonuclar.reduce(function (a, b) {
+      return a.length > b.length ? a : b;
+    });
+
+    var enKotuSonuc = sonuclar.reduce(function (a, b) {
+      return a.length < b.length ? a : b;
+    });
+
+    // Sonuç kartlarına yazdır
+    document.querySelector("#alt-kart1 .card-title").textContent =
+      "En İyi Sonuç";
+    document.querySelector("#alt-kart1 .card-text").textContent = enIyiSonuc;
+
+    document.querySelector("#alt-kart2 .card-title").textContent =
+      "En Kötü Sonuç";
+    document.querySelector("#alt-kart2 .card-text").textContent = enKotuSonuc;
   } else {
     alert("Lütfen Önem Derecelerinin toplam değerini 1 olarak ayarlayınız.");
   }
