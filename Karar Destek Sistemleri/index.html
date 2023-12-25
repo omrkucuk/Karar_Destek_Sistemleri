@@ -29,13 +29,13 @@
           <thead class="table-dark">
             <tr>
               <th scope="col" class="p-3">#</th>
-              <th scope="col" class="p-3">Ulaşım Maliyeti</th>
-              <th scope="col" class="p-3">Ulaşım Süresi (Dk)</th>
-              <th scope="col" class="p-3">Konaklama Maliyeti</th>
-              <th scope="col" class="p-3">Konaklama Süresi (Gün)</th>
-              <th scope="col" class="p-3">Merkeze Uzaklık (Km)</th>
-              <th scope="col" class="p-3">Değerlendirme Puanı (10)</th>
-              <th scope="col" class="p-3">Hava Sıcaklığı</th>
+              <th scope="col" class="p-3" id="001">Ulaşım Maliyeti</th>
+              <th scope="col" class="p-3" id="002">Ulaşım Süresi (Dk)</th>
+              <th scope="col" class="p-3" id="003">Konaklama Maliyeti</th>
+              <th scope="col" class="p-3" id="004">Konaklama Süresi (Gün)</th>
+              <th scope="col" class="p-3" id="005">Merkeze Uzaklık (Km)</th>
+              <th scope="col" class="p-3" id="006">Değerlendirme Puanı (10)</th>
+              <th scope="col" class="p-3" id="007">Hava Sıcaklığı</th>
             </tr>
           </thead>
           <tbody>
@@ -179,13 +179,13 @@
           </thead>
           <tbody>
             <tr>
-              <td><input type="range" id="form1" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'ulaşımMaliyetiValue')"/></td>
-              <td><input type="range" id="form2" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'ulaşımSuresiValue')"/></td>
-              <td><input type="range" id="form3" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Konaklama Maliyeti')"/></td>
-              <td><input type="range" id="form4" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Konaklama Süresi')"/></td>
-              <td><input type="range" id="form5" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Merkeze Uzaklık')"/></td>
-              <td><input type="range" id="form6" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Değerlendirme Puanı')"/></td>
-              <td><input type="range" id="form7" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Hava Sıcaklığı')"/></td>
+              <td><input type="range" id="form1" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'ulaşımMaliyetiValue')"/></td>
+              <td><input type="range" id="form2" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'ulaşımSuresiValue')"/></td>
+              <td><input type="range" id="form3" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Konaklama Maliyeti')"/></td>
+              <td><input type="range" id="form4" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Konaklama Süresi')"/></td>
+              <td><input type="range" id="form5" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Merkeze Uzaklık')"/></td>
+              <td><input type="range" id="form6" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Değerlendirme Puanı')"/></td>
+              <td><input type="range" id="form7" for="001" class="form-range" min="0" max="1" step="0.1" value="0"  onchange="showValue(this.value, 'Hava Sıcaklığı')"/></td>
             </tr>
             <tr>
               <td><span id="ulaşımMaliyetiValue">0.0</span></td>

@@ -63,38 +63,53 @@ function showResult() {
     goster.style.display = "flex";
     goster2.style.display = "inline-block";
 
-    var sonuclar = [];
+    // Önce sutunToplamlari dizisini tanımla
+    var sutunToplamlari = new Array(table.rows[0].cells.length - 1).fill(0);
 
-    // Satırları döngü ile gezip input değerlerini al
+    // Her bir hücredeki değeri al ve sütun toplamlarını hesapla
     for (var i = 1; i < table.rows.length; i++) {
-      var satir = table.rows[i];
-      var sonuc = i + ". Satır: ";
-
-      for (var j = 1; j < satir.cells.length; j++) {
-        var inputValue = satir.cells[j].querySelector("input").value;
-        sonuc += satir.cells[j].textContent + "   " + inputValue;
+      for (var j = 1; j < table.rows[0].cells.length; j++) {
+        var inputValue = parseFloat(
+          table.rows[i].cells[j].querySelector("input").value
+        );
+        sutunToplamlari[j - 1] += Math.pow(inputValue, 2);
       }
-
-      sonuclar.push(sonuc);
     }
 
-    // En iyi ve en kötü sonuçları bul
-    var enIyiSonuc = sonuclar.reduce(function (a, b) {
-      return a.length > b.length ? a : b;
-    });
+    // Sütun toplamlarını kullanarak işlemleri yap
+    for (var k = 0; k < sutunToplamlari.length; k++) {
+      sutunToplamlari[k] = Math.sqrt(sutunToplamlari[k]);
 
-    var enKotuSonuc = sonuclar.reduce(function (a, b) {
-      return a.length < b.length ? a : b;
-    });
+      // Her sütunun ilk hücresine bölme işlemi
+      for (var m = 1; m < table.rows.length; m++) {
+        var inputValue = parseFloat(
+          table.rows[m].cells[k + 1].querySelector("input").value
+        );
 
-    // Sonuç kartlarına yazdır
-    document.querySelector("#alt-kart1 .card-title").textContent =
-      "En İyi Sonuç";
-    document.querySelector("#alt-kart1 .card-text").textContent = enIyiSonuc;
+        // Kontrol: Geçerli bir sayı mı? ve sütun toplamı sıfırdan farklı mı?
+        if (!isNaN(inputValue) && sutunToplamlari[k] !== 0) {
+          // Her satırdaki değeri sütun toplamına böl
+          var normalizedValue = inputValue / sutunToplamlari[k];
+          var agirlik =
+            normalizedValue *
+            // Sonucu yazdır veya başka bir şey yap
+            console.log(
+              `Sütun ${k + 1}, Satır ${m} Normalize Değer: ${normalizedValue}`
+            );
+        }
+      }
+    }
 
-    document.querySelector("#alt-kart2 .card-title").textContent =
+    // Sütun toplamlarını yazdır
+    var sutunToplamText = "Sütun Toplamları: ";
+    for (var k = 0; k < sutunToplamlari.length; k++) {
+      sutunToplamText += `S${k + 1}: ${sutunToplamlari[k].toFixed(2)}   `;
+    }
+
+    document.querySelector("#alt-kart1 .card-text").textContent =
+      sutunToplamText;
+    document.querySelector("#alt-kart2 .card-text").textContent =
       "En Kötü Sonuç";
-    document.querySelector("#alt-kart2 .card-text").textContent = enKotuSonuc;
   } else {
     alert("Lütfen Önem Derecelerinin toplam değerini 1 olarak ayarlayınız.");
   }
