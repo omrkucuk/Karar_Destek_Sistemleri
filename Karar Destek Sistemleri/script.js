@@ -59,7 +59,7 @@ function showResult() {
     parseFloat(range6) +
     parseFloat(range7);
 
-  if (deger == 1) {
+  if (deger == 1 || (deger > 0.9 && deger < 1.1)) {
     goster.style.display = "flex";
     goster2.style.display = "inline-block";
 
@@ -90,12 +90,15 @@ function showResult() {
         if (!isNaN(inputValue) && sutunToplamlari[k] !== 0) {
           // Her satırdaki değeri sütun toplamına böl
           var normalizedValue = inputValue / sutunToplamlari[k];
-          var agirlik =
+          // Her bir sütunu range değeriyle çarp
+          var weightedValue =
             normalizedValue *
-            // Sonucu yazdır veya başka bir şey yap
-            console.log(
-              `Sütun ${k + 1}, Satır ${m} Normalize Değer: ${normalizedValue}`
-            );
+            [range1, range2, range3, range4, range5, range6, range7][k];
+
+          // Sonucu yazdır veya başka bir şey yap
+          console.log(
+            `Sütun ${k + 1}, Satır ${m} Normalize Değer: ${weightedValue}`
+          );
         }
       }
     }
