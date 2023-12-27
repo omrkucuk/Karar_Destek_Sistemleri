@@ -80,6 +80,12 @@ function showResult() {
     for (var k = 0; k < sutunToplamlari.length; k++) {
       sutunToplamlari[k] = Math.sqrt(sutunToplamlari[k]);
 
+      // En yüksek weightedValue'ı saklamak için değişken tanımla
+      var sutunenyuksekdeger = 0;
+      var sutunendusukdeger = Number.MAX_VALUE;
+      var enYuksekDegerler = [];
+      var agirlik = [];
+
       // Her sütunun ilk hücresine bölme işlemi
       for (var m = 1; m < table.rows.length; m++) {
         var inputValue = parseFloat(
@@ -95,14 +101,32 @@ function showResult() {
             normalizedValue *
             [range1, range2, range3, range4, range5, range6, range7][k];
 
+          agirlik.push(weightedValue);
+          // En yüksek weightedValue'ı güncelle
+          sutunenyuksekdeger = Math.max(sutunenyuksekdeger, weightedValue);
+          sutunendusukdeger = Math.min(sutunendusukdeger, weightedValue);
+          enYuksekDegerler.push(sutunenyuksekdeger);
           // Sonucu yazdır veya başka bir şey yap
           console.log(
-            `Sütun ${k + 1}, Satır ${m} Normalize Değer: ${weightedValue}`
+            `Sütun ${
+              k + 1
+            }, Satır ${m} Normalize Değer: ${weightedValue} Pozitif Değer: ${sutunenyuksekdeger} Negatif Değer: ${sutunendusukdeger} mathmax ${enYuksekDegerler} ağırlık: ${agirlik}`
           );
         }
       }
-    }
+      enYuksekDegerler = Math.max(...enYuksekDegerler);
+      console.log(
+        `max değer: ${sutunenyuksekdeger} min değer: ${sutunendusukdeger} dizi: ${enYuksekDegerler} ağırlık2 : ${agirlik} sonuc: ${enYuksekDegerler}`
+      );
+      var artis = [];
+      for (var n = 0; n < agirlik.length; n++) {
+        agirlik[n] -= enYuksekDegerler;
+        artis[n] = Math.pow(agirlik[n], 2);
+      }
 
+      // Ağırlık dizisini consola yazdır
+      console.log("Ağırlık Dizisi (en yüksek değer çıkarıldı):", artis);
+    }
     // Sütun toplamlarını yazdır
     var sutunToplamText = "Sütun Toplamları: ";
     for (var k = 0; k < sutunToplamlari.length; k++) {
