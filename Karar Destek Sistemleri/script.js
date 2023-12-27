@@ -76,6 +76,7 @@ function showResult() {
       }
     }
     var toplamAgirlikDizisi = [];
+    var toplamdegerler = [];
     // Sütun toplamlarını kullanarak işlemleri yap
     for (var k = 0; k < sutunToplamlari.length; k++) {
       sutunToplamlari[k] = Math.sqrt(sutunToplamlari[k]);
@@ -135,6 +136,16 @@ function showResult() {
       );
       console.log("Toplam Ağırlık dizisi: ", toplamAgirlikDizisi);
     }
+
+    for (var l = 0; l < toplamAgirlikDizisi[0].length; l++) {
+      var toplam = 0;
+
+      for (var r = 0; r < toplamAgirlikDizisi.length; r++) {
+        toplam += toplamAgirlikDizisi[r][l];
+      }
+      toplamdegerler.push(toplam);
+    }
+    console.log("Final Değerler:", toplamdegerler);
     // Sütun toplamlarını yazdır
     var sutunToplamText = "Sütun Toplamları: ";
     for (var k = 0; k < sutunToplamlari.length; k++) {
