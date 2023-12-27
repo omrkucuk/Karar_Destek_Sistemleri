@@ -118,14 +118,13 @@ function showResult() {
       console.log(
         `max değer: ${sutunenyuksekdeger} min değer: ${sutunendusukdeger} dizi: ${enYuksekDegerler} ağırlık2 : ${agirlik} sonuc: ${enYuksekDegerler}`
       );
-      var artis = [];
       for (var n = 0; n < agirlik.length; n++) {
         agirlik[n] -= enYuksekDegerler;
-        artis[n] = Math.pow(agirlik[n], 2);
+        agirlik[n] = Math.pow(agirlik[n], 2);
       }
 
       // Ağırlık dizisini consola yazdır
-      console.log("Ağırlık Dizisi (en yüksek değer çıkarıldı):", artis);
+      console.log("Ağırlık Dizisi (en yüksek değer çıkarıldı):", agirlik);
     }
     // Sütun toplamlarını yazdır
     var sutunToplamText = "Sütun Toplamları: ";
