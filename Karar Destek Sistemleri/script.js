@@ -75,7 +75,7 @@ function showResult() {
         sutunToplamlari[j - 1] += Math.pow(inputValue, 2);
       }
     }
-
+    var toplamAgirlikDizisi = [];
     // Sütun toplamlarını kullanarak işlemleri yap
     for (var k = 0; k < sutunToplamlari.length; k++) {
       sutunToplamlari[k] = Math.sqrt(sutunToplamlari[k]);
@@ -118,13 +118,22 @@ function showResult() {
       console.log(
         `max değer: ${sutunenyuksekdeger} min değer: ${sutunendusukdeger} dizi: ${enYuksekDegerler} ağırlık2 : ${agirlik} sonuc: ${enYuksekDegerler}`
       );
+      var agirlikdizi = [];
       for (var n = 0; n < agirlik.length; n++) {
         agirlik[n] -= enYuksekDegerler;
         agirlik[n] = Math.pow(agirlik[n], 2);
+        agirlikdizi.push(agirlik[n]);
       }
-
+      toplamAgirlikDizisi.push(agirlikdizi);
       // Ağırlık dizisini consola yazdır
-      console.log("Ağırlık Dizisi (en yüksek değer çıkarıldı):", agirlik);
+      console.log(
+        "Ağırlık Dizisi (en yüksek değer çıkarıldı):",
+        agirlik,
+        "Buda Ağırlık dizi: ",
+        agirlikdizi,
+        "toplam ağırlık dizisi"
+      );
+      console.log("Toplam Ağırlık dizisi: ", toplamAgirlikDizisi);
     }
     // Sütun toplamlarını yazdır
     var sutunToplamText = "Sütun Toplamları: ";
