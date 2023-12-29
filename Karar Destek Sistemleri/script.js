@@ -76,7 +76,9 @@ function showResult() {
       }
     }
     var toplamAgirlikDizisi = [];
+    var toplamAgirlikDizisi2 = [];
     var toplamdegerler = [];
+    var toplamdegerler2 = [];
     // Sütun toplamlarını kullanarak işlemleri yap
     for (var k = 0; k < sutunToplamlari.length; k++) {
       sutunToplamlari[k] = Math.sqrt(sutunToplamlari[k]);
@@ -85,8 +87,9 @@ function showResult() {
       var sutunenyuksekdeger = 0;
       var sutunendusukdeger = Number.MAX_VALUE;
       var enYuksekDegerler = [];
+      var enDusukDegerler = [];
       var agirlik = [];
-
+      var agirlik2 = [];
       // Her sütunun ilk hücresine bölme işlemi
       for (var m = 1; m < table.rows.length; m++) {
         var inputValue = parseFloat(
@@ -103,21 +106,24 @@ function showResult() {
             [range1, range2, range3, range4, range5, range6, range7][k];
 
           agirlik.push(weightedValue);
+          agirlik2.push(weightedValue);
           // En yüksek weightedValue'ı güncelle
           sutunenyuksekdeger = Math.max(sutunenyuksekdeger, weightedValue);
           sutunendusukdeger = Math.min(sutunendusukdeger, weightedValue);
           enYuksekDegerler.push(sutunenyuksekdeger);
+          enDusukDegerler.push(sutunendusukdeger);
           // Sonucu yazdır veya başka bir şey yap
           console.log(
             `Sütun ${
               k + 1
-            }, Satır ${m} Normalize Değer: ${weightedValue} Pozitif Değer: ${sutunenyuksekdeger} Negatif Değer: ${sutunendusukdeger} mathmax ${enYuksekDegerler} ağırlık: ${agirlik}`
+            }, Satır ${m} Normalize Değer: ${weightedValue} Negatif Değer: ${sutunendusukdeger} Pozitif değer: ${sutunenyuksekdeger}`
           );
         }
       }
       enYuksekDegerler = Math.max(...enYuksekDegerler);
+      enDusukDegerler = Math.min(...enDusukDegerler);
       console.log(
-        `max değer: ${sutunenyuksekdeger} min değer: ${sutunendusukdeger} dizi: ${enYuksekDegerler} ağırlık2 : ${agirlik} sonuc: ${enYuksekDegerler}`
+        `enyüksek değer: ${enYuksekDegerler} en düşük değer: ${enDusukDegerler} ağırlık : ${agirlik}`
       );
       var agirlikdizi = [];
       for (var n = 0; n < agirlik.length; n++) {
@@ -126,15 +132,22 @@ function showResult() {
         agirlikdizi.push(agirlik[n]);
       }
       toplamAgirlikDizisi.push(agirlikdizi);
+
+      var agirlikdizi2 = [];
+      for (var n = 0; n < agirlik2.length; n++) {
+        agirlik2[n] -= enDusukDegerler;
+        agirlik2[n] = Math.pow(agirlik2[n], 2);
+        agirlikdizi2.push(agirlik2[n]);
+      }
+      toplamAgirlikDizisi2.push(agirlikdizi2);
+
       // Ağırlık dizisini consola yazdır
       console.log(
-        "Ağırlık Dizisi (en yüksek değer çıkarıldı):",
-        agirlik,
-        "Buda Ağırlık dizi: ",
-        agirlikdizi,
-        "toplam ağırlık dizisi"
+        "Toplam Ağırlık dizisi: ",
+        toplamAgirlikDizisi,
+        "Toplam Ağırlık dizisi2 : ",
+        toplamAgirlikDizisi2
       );
-      console.log("Toplam Ağırlık dizisi: ", toplamAgirlikDizisi);
     }
 
     for (var l = 0; l < toplamAgirlikDizisi[0].length; l++) {
@@ -143,9 +156,29 @@ function showResult() {
       for (var r = 0; r < toplamAgirlikDizisi.length; r++) {
         toplam += toplamAgirlikDizisi[r][l];
       }
-      toplamdegerler.push(toplam);
+      var toplamkok = Math.sqrt(toplam);
+      toplamdegerler.push(toplamkok);
     }
-    console.log("Final Değerler:", toplamdegerler);
+
+    for (var l = 0; l < toplamAgirlikDizisi2[0].length; l++) {
+      var toplam = 0;
+
+      for (var r = 0; r < toplamAgirlikDizisi2.length; r++) {
+        toplam += toplamAgirlikDizisi2[r][l];
+      }
+      var toplamkokeksi = Math.sqrt(toplam);
+      toplamdegerler2.push(toplamkokeksi);
+    }
+    console.log(
+      "Final Değerler:",
+      toplamdegerler,
+      "Final Değerler2:",
+      toplamdegerler2
+    );
+    var finalci = [];
+    finalci.push(toplamdegerler, toplamdegerler2);
+    console.log("Finalci ", finalci);
+
     // Sütun toplamlarını yazdır
     var sutunToplamText = "Sütun Toplamları: ";
     for (var k = 0; k < sutunToplamlari.length; k++) {

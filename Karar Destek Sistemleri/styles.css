@@ -1,44 +1,70 @@
 * {
   box-sizing: border-box;
 }
-.kapsayici {
-  height: 100vh;
-  background-color: #e5e7ec;
+
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
 }
+
+.kapsayici {
+  min-height: 100vh;
+  background-color: #e5e7ec;
+  padding: 20px;
+}
+
 .karar-destek {
   font-weight: bolder;
-  font-size: 24px;
+  font-size: 2rem;
   color: #d0572f;
 }
+
 .alt-kapsayici {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   text-align: center;
 }
+
 .alt-sol {
-  width: 10%;
+  width: 98%;
+  display: flex;
+  margin-left: 20px;
 }
+
 .alt-orta {
-  width: 37%;
-  margin-left: 55px;
+  width: 100%;
+  margin: 0 20px;
 }
+
 .alt-sag {
-  width: 50%;
+  width: 100%;
 }
+
 .alt-sol button {
-  margin-left: 40px;
+  width: 50%;
+  margin: 5px;
 }
+
 .ilk-span {
   font-size: 20px;
   color: white;
 }
+
 @media only screen and (max-width: 1500px) {
   .ilk-span {
     font-size: 18px;
   }
 }
+
 @media only screen and (max-width: 1400px) {
   .ilk-span {
     font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .alt-orta {
+    margin: 0;
   }
 }
