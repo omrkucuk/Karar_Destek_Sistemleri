@@ -179,16 +179,26 @@ function showResult() {
     finalci.push(toplamdegerler, toplamdegerler2);
     console.log("Finalci ", finalci);
 
-    // Sütun toplamlarını yazdır
-    var sutunToplamText = "Sütun Toplamları: ";
-    for (var k = 0; k < sutunToplamlari.length; k++) {
-      sutunToplamText += `S${k + 1}: ${sutunToplamlari[k].toFixed(2)}   `;
+    var toplamDizisi = [];
+
+    if (toplamdegerler.length === toplamdegerler2.length) {
+      // Dizileri gezerek elemanları topla
+      for (var i = 0; i < toplamdegerler.length; i++) {
+        var toplam =
+          toplamdegerler2[i] / (toplamdegerler[i] + toplamdegerler2[i]);
+        toplamDizisi.push(toplam);
+      }
+
+      console.log("Toplam Dizisi:", toplamDizisi);
+    } else {
+      console.log("Dizilerin boyutları eşit değil.");
     }
 
-    document.querySelector("#alt-kart1 .card-text").textContent =
-      sutunToplamText;
-    document.querySelector("#alt-kart2 .card-text").textContent =
-      "En Kötü Sonuç";
+    var en_iyi_sonuc = Math.max(...toplamDizisi);
+    var en_kotu_sonuc = Math.min(...toplamDizisi);
+
+    document.querySelector("#alt-kart1 .card-text").textContent = en_iyi_sonuc;
+    document.querySelector("#alt-kart2 .card-text").textContent = en_kotu_sonuc;
   } else {
     alert("Lütfen Önem Derecelerinin toplam değerini 1 olarak ayarlayınız.");
   }
