@@ -35,6 +35,33 @@ function deleteLastRow() {
 function showValue(newValue, elementId) {
   document.getElementById(elementId).innerText = newValue;
 }
+document.getElementById("form1").addEventListener("input", function (event) {
+  showValue(event.target.value, "ulaşımMaliyetiValue");
+});
+
+document.getElementById("form2").addEventListener("input", function (event) {
+  showValue(event.target.value, "ulaşımSuresiValue");
+});
+
+document.getElementById("form3").addEventListener("input", function (event) {
+  showValue(event.target.value, "Konaklama Maliyeti");
+});
+
+document.getElementById("form4").addEventListener("input", function (event) {
+  showValue(event.target.value, "Konaklama Süresi");
+});
+
+document.getElementById("form5").addEventListener("input", function (event) {
+  showValue(event.target.value, "Merkeze Uzaklık");
+});
+
+document.getElementById("form6").addEventListener("input", function (event) {
+  showValue(event.target.value, "Değerlendirme Puanı");
+});
+
+document.getElementById("form7").addEventListener("input", function (event) {
+  showValue(event.target.value, "Hava Sıcaklığı");
+});
 
 // Sonucu Göster Butonu
 function showResult() {
