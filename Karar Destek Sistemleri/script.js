@@ -107,7 +107,9 @@ function showResult() {
         var inputValue = parseFloat(
           table.rows[i].cells[j].querySelector("input").value
         );
-        sutunToplamlari[j - 1] += Math.pow(inputValue, 2);
+        if (!isNaN(inputValue)) {
+          sutunToplamlari[j - 1] += Math.pow(inputValue, 2);
+        }
       }
     }
     var toplamAgirlikDizisi = [];
@@ -260,4 +262,23 @@ function showResult() {
 // Sonuçları Sıfırla Butonu
 function removeResult() {
   window.location.reload();
+}
+
+function updateTable(data) {
+  // İlk satır başlık olduğu için 1'den başlıyoruz
+  for (var i = 1; i < data.length; i++) {
+    var rowData = data[i];
+    var rowId = i + 1; // Tablodaki satır ID'leri
+
+    for (var j = 0; j < rowData.length; j++) {
+      var cellValue = rowData[j];
+      var cellId = i * 10 + (j + 1); // Tablodaki hücre ID'leri
+
+      // Tabloyu güncelle
+      var cellInput = document.getElementById(cellId.toString());
+      if (cellInput) {
+        cellInput.value = cellValue;
+      }
+    }
+  }
 }
