@@ -1,10 +1,16 @@
 // Satır Ekle
 function addRow() {
   var tbody = document.querySelector("#myTable tbody");
+  var yerAdi = prompt("Yer adı giriniz:");
+
+  if (yerAdi === null || yerAdi.trim() === "") {
+    return;
+  }
+
   var yenisatir = document.createElement("tr");
   yenisatir.id = "" + (tbody.children.length + 1);
   var yenith = document.createElement("th");
-  yenith.textContent = tbody.children.length + 1;
+  yenith.textContent = yerAdi;
   yenisatir.appendChild(yenith);
   tbody.appendChild(yenisatir);
 
