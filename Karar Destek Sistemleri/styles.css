@@ -68,3 +68,9 @@ body {
     margin: 0;
   }
 }
+.dosyasec {
+  width: 50%;
+  appearance: inherit;
+  margin-top: 12px;
+  margin-left: 7px;
+}

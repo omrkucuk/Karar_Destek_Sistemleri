@@ -158,6 +158,7 @@
           <button class="btn btn-danger " type="button" onclick="deleteLastRow()" style="display: inline-block; width: 50%; height: 45px; ">Satır Sil</button>
           <button class="btn btn-warning " type="button" onclick="removeResult()" style="display: inline-block; width: 50%; height: 45px; ">Sonucu Sıfırla</button>
           <button class="btn btn-success" onclick="showResult()" style="display: inline-block; width: 50%; height: 45px;">Sonucu Göster</button>
+          <input  class="dosyasec" type="file" id="excelFileInput" onchange="excelToJson('excelFileInput')">
         </div>
 
 
@@ -216,9 +217,6 @@
           <p class="card-text"></p>
           </div>
           </div>
-  
-    <input type="file" id="excelFileInput" onchange="excelToJson('excelFileInput')">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="script.js"></script>
@@ -227,10 +225,7 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDf"
       crossorigin="anonymous"
     ></script>
-
-      <script>
-        // Excel dosyasından verileri oku ve JSON'a dönüştür
-function excelToJson(fileInputId) {
+    <script>function excelToJson(fileInputId) {
     var input = document.getElementById(fileInputId);
     var file = input.files[0];
 
@@ -244,17 +239,20 @@ function excelToJson(fileInputId) {
 
         var jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
 
-        // HTML tablosundaki satır sayısını alın
-        var rowCount = document.getElementById("myTable").rows.length;
+        // HTML tablosundaki tüm satırları temizle
+        var table = document.getElementById("myTable");
+        while (table.rows.length > 0) {
+            table.deleteRow(0);
+        }
 
         // Excel'deki her satırı döngüyle işleyin
         for (var i = 0; i < jsonData.length; i++) {
             // Yeni bir satır ekleyin
-            var newRow = document.getElementById("myTable").insertRow(rowCount + i);
+            var newRow = table.insertRow(i);
 
             // Her sütundaki veriyi yeni satıra ekleyin
             for (var j = 0; j < Object.keys(jsonData[i]).length; j++) {
-                var cellId = rowCount + i + 1 + "" + (j + 1);
+                var cellId = i + 1 + "" + (j + 1);
                 var newCell;
 
                 // İlk hücreyse th etiketine dönüştür
@@ -275,7 +273,6 @@ function excelToJson(fileInputId) {
     reader.readAsArrayBuffer(file);
 }
 
-
-</script>
+    </script>
     </body>
 </html>
