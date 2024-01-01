@@ -2,9 +2,11 @@
 function addRow() {
   var tbody = document.querySelector("#myTable tbody");
   var yenisatir = document.createElement("tr");
+  yenisatir.id = "" + (tbody.children.length + 1);
   var yenith = document.createElement("th");
   yenith.textContent = tbody.children.length + 1;
   yenisatir.appendChild(yenith);
+  tbody.appendChild(yenisatir);
 
   for (var i = 0; i < 7; i++) {
     var yenitd = document.createElement("td");
@@ -224,8 +226,26 @@ function showResult() {
     var en_iyi_sonuc = Math.max(...toplamDizisi);
     var en_kotu_sonuc = Math.min(...toplamDizisi);
 
-    document.querySelector("#alt-kart1 .card-text").textContent = en_iyi_sonuc;
-    document.querySelector("#alt-kart2 .card-text").textContent = en_kotu_sonuc;
+    var enIyiSonucIndeks = toplamDizisi.indexOf(en_iyi_sonuc);
+    var enKotuSonucIndeks = toplamDizisi.indexOf(en_kotu_sonuc);
+    var enIyiSonucSatir = enIyiSonucIndeks + 1;
+    var enKotuSonucSatir = enKotuSonucIndeks + 1;
+
+    var enIyiSonucTh = document
+      .querySelector("#myTable tbody")
+      .rows[enIyiSonucSatir - 1].querySelector("th");
+    var enKotuSonucTh = document
+      .querySelector("#myTable tbody")
+      .rows[enKotuSonucSatir - 1].querySelector("th");
+
+    var enIyiSonucThIcerik = enIyiSonucTh.textContent;
+    var enKotuSonucThIcerik = enKotuSonucTh.textContent;
+
+    document.querySelector("#alt-kart1 .card-text").innerHTML =
+      "En İyi Seçim: " + enIyiSonucThIcerik + "<br>Sonuç: " + en_iyi_sonuc;
+
+    document.querySelector("#alt-kart2 .card-text").innerHTML =
+      "En Kötü Seçim: " + enKotuSonucThIcerik + "<br>Sonuç: " + en_kotu_sonuc;
   } else {
     alert("Lütfen Önem Derecelerinin toplam değerini 1 olarak ayarlayınız.");
   }
