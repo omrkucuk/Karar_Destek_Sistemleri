@@ -230,34 +230,52 @@
 
       <script>
         // Excel dosyasından verileri oku ve JSON'a dönüştür
-   function excelToJson(fileInputId) {
-        var input = document.getElementById(fileInputId);
-        var file = input.files[0];
+function excelToJson(fileInputId) {
+    var input = document.getElementById(fileInputId);
+    var file = input.files[0];
 
-        var reader = new FileReader();
+    var reader = new FileReader();
 
-        reader.onload = function (e) {
-            var data = new Uint8Array(e.target.result);
-            var workbook = XLSX.read(data, { type: 'array' });
+    reader.onload = function (e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: 'array' });
 
-            // Sadece ilk sayfa üzerinde çalışıyoruz, eğer birden fazla sayfa varsa döngü kullanabilirsiniz.
-            var sheet = workbook.Sheets[workbook.SheetNames[0]];
+        var sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-            // SheetJS kütüphanesinin fonksiyonu ile JSON'a dönüştür
-            var jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        var jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
 
-            // HTML tablosundaki input alanlarına verileri ekleyin
-            for (var i = 0; i < jsonData.length; i++) {
-                var rowId = i + 1;
-                for (var j = 1; j < jsonData[i].length; j++) {
-                    var cellId = rowId.toString() + j.toString();
-                    document.getElementById(cellId).value = jsonData[i][j];
+        // HTML tablosundaki satır sayısını alın
+        var rowCount = document.getElementById("myTable").rows.length;
+
+        // Excel'deki her satırı döngüyle işleyin
+        for (var i = 0; i < jsonData.length; i++) {
+            // Yeni bir satır ekleyin
+            var newRow = document.getElementById("myTable").insertRow(rowCount + i);
+
+            // Her sütundaki veriyi yeni satıra ekleyin
+            for (var j = 0; j < Object.keys(jsonData[i]).length; j++) {
+                var cellId = rowCount + i + 1 + "" + (j + 1);
+                var newCell;
+
+                // İlk hücreyse th etiketine dönüştür
+                if (j === 0) {
+                    newCell = document.createElement('th');
+                    newCell.innerHTML = jsonData[i][Object.keys(jsonData[i])[j]];
+                } else {
+                    newCell = newRow.insertCell(j - 1);
+                    newCell.innerHTML = '<input type="text" id="' + cellId + '" value="' + jsonData[i][Object.keys(jsonData[i])[j]] + '" />';
                 }
-            }
-        };
 
-        reader.readAsArrayBuffer(file);
-    }
+                // Satırın ilk hücresine veriyi ekleyin
+                newRow.appendChild(newCell);
+            }
+        }
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
+
 </script>
     </body>
 </html>
