@@ -98,18 +98,14 @@ function showResult() {
     goster.style.display = "flex";
     goster2.style.display = "inline-block";
 
-    // Önce sutunToplamlari dizisini tanımla
     var sutunToplamlari = new Array(table.rows[0].cells.length - 1).fill(0);
 
-    // Her bir hücredeki değeri al ve sütun toplamlarını hesapla
     for (var i = 1; i < table.rows.length; i++) {
       for (var j = 1; j < table.rows[0].cells.length; j++) {
         var inputValue = parseFloat(
           table.rows[i].cells[j].querySelector("input").value
         );
-        if (!isNaN(inputValue)) {
-          sutunToplamlari[j - 1] += Math.pow(inputValue, 2);
-        }
+        sutunToplamlari[j - 1] += Math.pow(inputValue, 2);
       }
     }
     var toplamAgirlikDizisi = [];
@@ -137,6 +133,7 @@ function showResult() {
         if (!isNaN(inputValue) && sutunToplamlari[k] !== 0) {
           // Her satırdaki değeri sütun toplamına böl
           var normalizedValue = inputValue / sutunToplamlari[k];
+          console.log("Normalize Değer: ", normalizedValue);
           // Her bir sütunu range değeriyle çarp
           var weightedValue =
             normalizedValue *
@@ -153,14 +150,14 @@ function showResult() {
           console.log(
             `Sütun ${
               k + 1
-            }, Satır ${m} Normalize Değer: ${weightedValue} Negatif Değer: ${sutunendusukdeger} Pozitif değer: ${sutunenyuksekdeger}`
+            }, Satır ${m} Ağırlıklandırılmış Normalize Değer: ${weightedValue} En Düşük Değer: ${sutunendusukdeger} En Yüksek Değer: ${sutunenyuksekdeger}`
           );
         }
       }
       enYuksekDegerler = Math.max(...enYuksekDegerler);
       enDusukDegerler = Math.min(...enDusukDegerler);
       console.log(
-        `enyüksek değer: ${enYuksekDegerler} en düşük değer: ${enDusukDegerler} ağırlık : ${agirlik}`
+        `enyüksek değer: ${enYuksekDegerler} en düşük değer: ${enDusukDegerler} Ağırlıklandırılmış Normalize Değerler : ${agirlik}`
       );
       var agirlikdizi = [];
       for (var n = 0; n < agirlik.length; n++) {
@@ -178,11 +175,10 @@ function showResult() {
       }
       toplamAgirlikDizisi2.push(agirlikdizi2);
 
-      // Ağırlık dizisini consola yazdır
       console.log(
-        "Toplam Ağırlık dizisi: ",
+        "İdeal Olan Noktalara Uzaklık Değeri: ",
         toplamAgirlikDizisi,
-        "Toplam Ağırlık dizisi2 : ",
+        "İdeal Olmayan Noktalara Uzaklık Değeri: ",
         toplamAgirlikDizisi2
       );
     }
@@ -206,27 +202,20 @@ function showResult() {
       var toplamkokeksi = Math.sqrt(toplam);
       toplamdegerler2.push(toplamkokeksi);
     }
-    console.log(
-      "Final Değerler:",
-      toplamdegerler,
-      "Final Değerler2:",
-      toplamdegerler2
-    );
+    console.log("Si*:", toplamdegerler, "Si-:", toplamdegerler2);
     var finalci = [];
     finalci.push(toplamdegerler, toplamdegerler2);
-    console.log("Finalci ", finalci);
 
     var toplamDizisi = [];
 
     if (toplamdegerler.length === toplamdegerler2.length) {
-      // Dizileri gezerek elemanları topla
       for (var i = 0; i < toplamdegerler.length; i++) {
         var toplam =
           toplamdegerler2[i] / (toplamdegerler[i] + toplamdegerler2[i]);
         toplamDizisi.push(toplam);
       }
 
-      console.log("Toplam Dizisi:", toplamDizisi);
+      console.log("Ci*: ", toplamDizisi);
     } else {
       console.log("Dizilerin boyutları eşit değil.");
     }
@@ -238,7 +227,7 @@ function showResult() {
     var enKotuSonucIndeks = toplamDizisi.indexOf(en_kotu_sonuc);
     var enIyiSonucSatir = enIyiSonucIndeks + 1;
     var enKotuSonucSatir = enKotuSonucIndeks + 1;
-    if (table.rows.length > 14) {
+    if (table.rows.length > 20) {
       var enIyiSonucTh = document
         .querySelector("#myTable tbody")
         .rows[enIyiSonucSatir + 0].querySelector("th");
@@ -267,7 +256,6 @@ function showResult() {
   }
 }
 
-// Sonuçları Sıfırla Butonu
 function removeResult() {
   window.location.reload();
 }
@@ -291,9 +279,7 @@ function excelToJson(fileInputId) {
       table.deleteRow(0);
     }
 
-    // HTML tablosundaki yeni satırları ekleyin
     var table = document.getElementById("myTable");
-    // İlk satırı th etiketi olarak ekle
     var headerRow = table.insertRow(0);
     for (var j = 0; j < Object.keys(jsonData[0]).length; j++) {
       var headerCell = document.createElement("th");
@@ -301,16 +287,12 @@ function excelToJson(fileInputId) {
       headerRow.appendChild(headerCell);
     }
     for (var i = 1; i < jsonData.length; i++) {
-      // i'yi 1'den başlatarak ilk satırı atlıyoruz
-      // Yeni bir satır ekleyin
       var newRow = table.insertRow(table.rows.length);
 
-      // Her sütundaki veriyi yeni satıra ekleyin
       for (var j = 0; j < Object.keys(jsonData[i]).length; j++) {
         var cellId = i + "" + (j + 1);
         var newCell;
 
-        // İlk hücreyse th etiketine dönüştür
         if (j === 0) {
           newCell = document.createElement("th");
           newCell.innerHTML = jsonData[i][Object.keys(jsonData[i])[j]];
@@ -323,7 +305,6 @@ function excelToJson(fileInputId) {
             jsonData[i][Object.keys(jsonData[i])[j]] +
             '" />';
         }
-        // Satırın ilk hücresine veriyi ekleyin
         newRow.appendChild(newCell);
       }
     }
@@ -331,14 +312,3 @@ function excelToJson(fileInputId) {
   };
   reader.readAsArrayBuffer(file);
 }
-
-// var sil = document.getElementsByClassName("satir");
-
-// // HTMLCollection üzerinde geriye doğru döngü yaparak her satırı sil
-// for (var i = sil.length - 1; i >= 0; i--) {
-//   var row = sil[i];
-//   row.parentNode.removeChild(row);
-// }
-// var gorunmez = document.getElementById("1");
-// gorunmez.style.display = "none";
-// gorunmez.innerHTML = "";
