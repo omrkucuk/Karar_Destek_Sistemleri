@@ -227,7 +227,7 @@ function showResult() {
     var enKotuSonucIndeks = toplamDizisi.indexOf(en_kotu_sonuc);
     var enIyiSonucSatir = enIyiSonucIndeks + 1;
     var enKotuSonucSatir = enKotuSonucIndeks + 1;
-    if (table.rows.length > 20) {
+    if (table.rows.length > 16) {
       var enIyiSonucTh = document
         .querySelector("#myTable tbody")
         .rows[enIyiSonucSatir + 0].querySelector("th");
