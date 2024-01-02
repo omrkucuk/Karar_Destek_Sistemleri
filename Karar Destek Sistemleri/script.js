@@ -238,13 +238,21 @@ function showResult() {
     var enKotuSonucIndeks = toplamDizisi.indexOf(en_kotu_sonuc);
     var enIyiSonucSatir = enIyiSonucIndeks + 1;
     var enKotuSonucSatir = enKotuSonucIndeks + 1;
-
-    var enIyiSonucTh = document
-      .querySelector("#myTable tbody")
-      .rows[enIyiSonucSatir - 1].querySelector("th");
-    var enKotuSonucTh = document
-      .querySelector("#myTable tbody")
-      .rows[enKotuSonucSatir - 1].querySelector("th");
+    if (table.rows.length > 14) {
+      var enIyiSonucTh = document
+        .querySelector("#myTable tbody")
+        .rows[enIyiSonucSatir + 0].querySelector("th");
+      var enKotuSonucTh = document
+        .querySelector("#myTable tbody")
+        .rows[enKotuSonucSatir + 0].querySelector("th");
+    } else {
+      var enIyiSonucTh = document
+        .querySelector("#myTable tbody")
+        .rows[enIyiSonucSatir - 1].querySelector("th");
+      var enKotuSonucTh = document
+        .querySelector("#myTable tbody")
+        .rows[enKotuSonucSatir - 1].querySelector("th");
+    }
 
     var enIyiSonucThIcerik = enIyiSonucTh.textContent;
     var enKotuSonucThIcerik = enKotuSonucTh.textContent;
@@ -264,21 +272,73 @@ function removeResult() {
   window.location.reload();
 }
 
-function updateTable(data) {
-  // İlk satır başlık olduğu için 1'den başlıyoruz
-  for (var i = 1; i < data.length; i++) {
-    var rowData = data[i];
-    var rowId = i + 1; // Tablodaki satır ID'leri
+function excelToJson(fileInputId) {
+  var input = document.getElementById(fileInputId);
+  var file = input.files[0];
 
-    for (var j = 0; j < rowData.length; j++) {
-      var cellValue = rowData[j];
-      var cellId = i * 10 + (j + 1); // Tablodaki hücre ID'leri
+  var reader = new FileReader();
 
-      // Tabloyu güncelle
-      var cellInput = document.getElementById(cellId.toString());
-      if (cellInput) {
-        cellInput.value = cellValue;
+  reader.onload = function (e) {
+    var data = new Uint8Array(e.target.result);
+    var workbook = XLSX.read(data, { type: "array" });
+
+    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    var jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
+
+    var table = document.getElementById("myTable");
+    while (table.rows.length > 0) {
+      table.deleteRow(0);
+    }
+
+    // HTML tablosundaki yeni satırları ekleyin
+    var table = document.getElementById("myTable");
+    // İlk satırı th etiketi olarak ekle
+    var headerRow = table.insertRow(0);
+    for (var j = 0; j < Object.keys(jsonData[0]).length; j++) {
+      var headerCell = document.createElement("th");
+      headerCell.innerHTML = Object.keys(jsonData[0])[j];
+      headerRow.appendChild(headerCell);
+    }
+    for (var i = 1; i < jsonData.length; i++) {
+      // i'yi 1'den başlatarak ilk satırı atlıyoruz
+      // Yeni bir satır ekleyin
+      var newRow = table.insertRow(table.rows.length);
+
+      // Her sütundaki veriyi yeni satıra ekleyin
+      for (var j = 0; j < Object.keys(jsonData[i]).length; j++) {
+        var cellId = i + "" + (j + 1);
+        var newCell;
+
+        // İlk hücreyse th etiketine dönüştür
+        if (j === 0) {
+          newCell = document.createElement("th");
+          newCell.innerHTML = jsonData[i][Object.keys(jsonData[i])[j]];
+        } else {
+          newCell = newRow.insertCell(j - 1);
+          newCell.innerHTML =
+            '<input type="text" id="' +
+            cellId +
+            '" value="' +
+            jsonData[i][Object.keys(jsonData[i])[j]] +
+            '" />';
+        }
+        // Satırın ilk hücresine veriyi ekleyin
+        newRow.appendChild(newCell);
       }
     }
-  }
+    console.log(jsonData);
+  };
+  reader.readAsArrayBuffer(file);
 }
+
+// var sil = document.getElementsByClassName("satir");
+
+// // HTMLCollection üzerinde geriye doğru döngü yaparak her satırı sil
+// for (var i = sil.length - 1; i >= 0; i--) {
+//   var row = sil[i];
+//   row.parentNode.removeChild(row);
+// }
+// var gorunmez = document.getElementById("1");
+// gorunmez.style.display = "none";
+// gorunmez.innerHTML = "";

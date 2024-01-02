@@ -50,7 +50,7 @@
               <td><input type="number" id="17" value="9" /></td>
             </tr>
             
-             <tr id="2">
+             <tr id="2" class="satir">
                 <th>İkinci Seçim</th>
                 <td><input type="number" id="21" value="1380" /></td>
                 <td><input type="number" id="22" value="480" /></td>
@@ -61,7 +61,7 @@
                 <td><input type="number" id="27" value="13" /></td>
               </tr>
 
-              <tr id="3">
+              <tr id="3" class="satir">
                 <th>3 Seçim</th>
                 <td><input type="number" id="31" value="1450" /></td>
                 <td><input type="number" id="32" value="530" /></td>
@@ -72,7 +72,7 @@
                 <td><input type="number" id="37" value="13" /></td>
               </tr>
 
-              <tr id="4">
+              <tr id="4" class="satir">
                 <th>4 Seçim</th>
                 <td><input type="number" id="41" value="1030" /></td>
                 <td><input type="number" id="42" value="350" /></td>
@@ -83,7 +83,7 @@
                 <td><input type="number" id="47" value="17" /></td>
               </tr>
 
-              <tr id="5">
+              <tr id="5" class="satir">
                 <th>5 Seçim</th>
                 <td><input type="number" id="51" value="1470" /></td>
                 <td><input type="number" id="52" value="480" /></td>
@@ -94,7 +94,7 @@
                 <td><input type="number" id="57" value="15" /></td>
               </tr>
 
-              <tr id="6">
+              <tr id="6" class="satir">
                 <th>6 Seçim</th>
                 <td><input type="number" id="61" value="1520" /></td>
                 <td><input type="number" id="62" value="600" /></td>
@@ -105,7 +105,7 @@
                 <td><input type="number" id="67" value="20" /></td>
               </tr>
 
-              <tr id="7">
+              <tr id="7" class="satir">
                 <th>Yedinci Seçim</th>
                 <td><input type="number" id="71" value="950" /></td>
                 <td><input type="number" id="72" value="180" /></td>
@@ -116,7 +116,7 @@
                 <td><input type="number" id="77" value="5" /></td>
               </tr>
 
-              <tr id="8">
+              <tr id="8" class="satir">
                 <th>Sekizinci Seçim</th>
                 <td><input type="number" id="81" value="1640" /></td>
                 <td><input type="number" id="82" value="520" /></td>
@@ -127,7 +127,7 @@
                 <td><input type="number" id="87" value="8" /></td>
               </tr>
 
-              <tr id="9">
+              <tr id="9" class="satir">
                 <th>Dokuzuncu Seçim</th>
                 <td><input type="number" id="91" value="1375" /></td>
                 <td><input type="number" id="92" value="260" /></td>
@@ -138,7 +138,7 @@
                 <td><input type="number" id="97" value="12" /></td>
               </tr>
 
-              <tr id="10">
+              <tr id="10" class="satir">
                 <th>10 Seçim</th>
                 <td><input type="number" id="101" value="1220" /></td>
                 <td><input type="number" id="102" value="300" /></td>
@@ -225,54 +225,5 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDf"
       crossorigin="anonymous"
     ></script>
-    <script>function excelToJson(fileInputId) {
-    var input = document.getElementById(fileInputId);
-    var file = input.files[0];
-
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-        var data = new Uint8Array(e.target.result);
-        var workbook = XLSX.read(data, { type: 'array' });
-
-        var sheet = workbook.Sheets[workbook.SheetNames[0]];
-
-        var jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
-
-        // HTML tablosundaki tüm satırları temizle
-        var table = document.getElementById("myTable");
-        while (table.rows.length > 0) {
-            table.deleteRow(0);
-        }
-
-        // Excel'deki her satırı döngüyle işleyin
-        for (var i = 0; i < jsonData.length; i++) {
-            // Yeni bir satır ekleyin
-            var newRow = table.insertRow(i);
-
-            // Her sütundaki veriyi yeni satıra ekleyin
-            for (var j = 0; j < Object.keys(jsonData[i]).length; j++) {
-                var cellId = i + 1 + "" + (j + 1);
-                var newCell;
-
-                // İlk hücreyse th etiketine dönüştür
-                if (j === 0) {
-                    newCell = document.createElement('th');
-                    newCell.innerHTML = jsonData[i][Object.keys(jsonData[i])[j]];
-                } else {
-                    newCell = newRow.insertCell(j - 1);
-                    newCell.innerHTML = '<input type="text" id="' + cellId + '" value="' + jsonData[i][Object.keys(jsonData[i])[j]] + '" />';
-                }
-
-                // Satırın ilk hücresine veriyi ekleyin
-                newRow.appendChild(newCell);
-            }
-        }
-    };
-
-    reader.readAsArrayBuffer(file);
-}
-
-    </script>
     </body>
 </html>
